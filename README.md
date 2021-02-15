@@ -198,9 +198,25 @@ networks:
 
 ```
 
+### 创建clickhouse及zookeeper目录
+
+```bash
+mkdir -p /mnt/d/Software/Docker-Volumes/clickhouse
+mkdir -p /mnt/d/Software/Docker-Volumes/zookeeper
+
+#!/bin/bash
+for ((i=1; i<=6; i++));
+do
+   echo $i
+   mkdir -p /mnt/d/Software/Docker-Volumes/data/server-0$i
+   mkdir -p /mnt/d/Software/Docker-Volumes/log/server-0$i
+done
+
+```
+
+
 
 We have 6 clickhouse server container and one zookeeper container.
-
 
 **To enable replication ZooKeeper is required. ClickHouse will take care of data consistency on all replicas and run restore procedure after failure automatically. It's recommended to deploy ZooKeeper cluster to separate servers.**
 
@@ -229,7 +245,7 @@ Let's see config file.
 
 So lets see `metrika.xml`
 
-```
+```xml
 <yandex>
 	<clickhouse_remote_servers>
 		<cluster_1>
@@ -293,7 +309,7 @@ So lets see `metrika.xml`
 
 and macros.xml, each instances has there own macros settings, like server 1: 
 
-```
+```xml
 <yandex>
     <macros>
         <replica>clickhouse-01</replica>
