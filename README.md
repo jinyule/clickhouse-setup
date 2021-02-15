@@ -34,29 +34,42 @@ This part we will setup
 
 Let's see our docker-compose.yml first.
 
-```
+```yaml
 version: '3'
 
 services:
     clickhouse-zookeeper:
-        image: zookeeper
+        restart: always
+        image: zookeeper:3.5.6
         ports:
-            - "2181:2181"
-            - "2182:2182"
+            - 2181:2181
+            - 2182:2182
         container_name: clickhouse-zookeeper
         hostname: clickhouse-zookeeper
-
+        volumes:
+                - /mnt/d/Software/Docker-Volumes/zookeeper/conf:/apache-zookeeper-3.5.6-bin/conf
+                - /mnt/d/Software/Docker-Volumes/zookeeper/data:/data
+                - /mnt/d/Software/Docker-Volumes/zookeeper/datalog:/datalog                
+        ulimits:
+            nofile:
+                soft: 262144
+                hard: 262144
     clickhouse-01:
+        restart: always
         image: yandex/clickhouse-server
         hostname: clickhouse-01
         container_name: clickhouse-01
         ports:
             - 9001:9000
+            - 8123:8123
+            - 9009:9009
         volumes:
-                - ./config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
-                - ./config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
-                - ./config/macros/macros-01.xml:/etc/clickhouse-server/config.d/macros.xml
-                # - ./data/server-01:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/macros/macros-01.xml:/etc/clickhouse-server/config.d/macros.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/data/server-01:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/log/server-01:/var/log/clickhouse-server
         ulimits:
             nofile:
                 soft: 262144
@@ -65,16 +78,21 @@ services:
             - "clickhouse-zookeeper"
 
     clickhouse-02:
+        restart: always
         image: yandex/clickhouse-server
         hostname: clickhouse-02
         container_name: clickhouse-02
         ports:
             - 9002:9000
+            - 8124:8123
+            - 9010:9009
         volumes:
-                - ./config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
-                - ./config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
-                - ./config/macros/macros-02.xml:/etc/clickhouse-server/config.d/macros.xml
-                # - ./data/server-02:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/macros/macros-02.xml:/etc/clickhouse-server/config.d/macros.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/data/server-02:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/log/server-02:/var/log/clickhouse-server
         ulimits:
             nofile:
                 soft: 262144
@@ -83,16 +101,21 @@ services:
             - "clickhouse-zookeeper"
 
     clickhouse-03:
+        restart: always
         image: yandex/clickhouse-server
         hostname: clickhouse-03
         container_name: clickhouse-03
         ports:
             - 9003:9000
+            - 8125:8123
+            - 9011:9009
         volumes:
-                - ./config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
-                - ./config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
-                - ./config/macros/macros-03.xml:/etc/clickhouse-server/config.d/macros.xml
-                # - ./data/server-03:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/macros/macros-03.xml:/etc/clickhouse-server/config.d/macros.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/data/server-03:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/log/server-03:/var/log/clickhouse-server
         ulimits:
             nofile:
                 soft: 262144
@@ -101,16 +124,21 @@ services:
             - "clickhouse-zookeeper"
 
     clickhouse-04:
+        restart: always
         image: yandex/clickhouse-server
         hostname: clickhouse-04
         container_name: clickhouse-04
         ports:
             - 9004:9000
+            - 8126:8123 
+            - 9012:9009
         volumes:
-                - ./config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
-                - ./config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
-                - ./config/macros/macros-04.xml:/etc/clickhouse-server/config.d/macros.xml
-                # - ./data/server-04:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/macros/macros-04.xml:/etc/clickhouse-server/config.d/macros.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/data/server-04:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/log/server-04:/var/log/clickhouse-server
         ulimits:
             nofile:
                 soft: 262144
@@ -119,16 +147,21 @@ services:
             - "clickhouse-zookeeper"
 
     clickhouse-05:
+        restart: always
         image: yandex/clickhouse-server
         hostname: clickhouse-05
         container_name: clickhouse-05
         ports:
             - 9005:9000
+            - 8127:8123
+            - 9013:9009
         volumes:
-                - ./config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
-                - ./config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
-                - ./config/macros/macros-05.xml:/etc/clickhouse-server/config.d/macros.xml
-                # - ./data/server-05:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/macros/macros-05.xml:/etc/clickhouse-server/config.d/macros.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/data/server-05:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/log/server-05:/var/log/clickhouse-server
         ulimits:
             nofile:
                 soft: 262144
@@ -137,16 +170,21 @@ services:
             - "clickhouse-zookeeper"
 
     clickhouse-06:
+        restart: always
         image: yandex/clickhouse-server
         hostname: clickhouse-06
         container_name: clickhouse-06
         ports:
             - 9006:9000
+            - 8128:8123
+            - 9014:9009
         volumes:
-                - ./config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
-                - ./config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
-                - ./config/macros/macros-06.xml:/etc/clickhouse-server/config.d/macros.xml
-                # - ./data/server-06:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/macros/macros-06.xml:/etc/clickhouse-server/config.d/macros.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml
+                - /mnt/d/Software/Docker-Volumes/clickhouse/data/server-06:/var/lib/clickhouse
+                - /mnt/d/Software/Docker-Volumes/clickhouse/log/server-06:/var/log/clickhouse-server
         ulimits:
             nofile:
                 soft: 262144
@@ -157,6 +195,7 @@ networks:
     default:
         external:
             name: clickhouse-net
+
 ```
 
 
@@ -180,6 +219,13 @@ Let's see config file.
     <include_from>/etc/clickhouse-server/metrika.xml</include_from>
 ```
 
+
+
+`./config/clickhouse_config.xml` 添加时区配置
+
+```xml
+<timezone>Asia/Shanghai</timezone>
+```
 
 So lets see `metrika.xml`
 
@@ -262,14 +308,14 @@ and macros.xml, each instances has there own macros settings, like server 1:
 
 So now you can start the server.
 
-```
+```bash
 docker network create clickhouse-net
 docker-compose up -d
 ```
 
 Conn to server and see if the cluster settings fine;
 
-```
+```bash
 docker run -it --rm --network="clickhouse-net" --link clickhouse-01:clickhouse-server yandex/clickhouse-client --host clickhouse-server
 ```
 
@@ -339,7 +385,7 @@ Please see config/users.xml
 
 - Conn
 ```bash
-docker run -it --rm --network="clickhouse-net" --link clickhouse-01:clickhouse-server yandex/clickhouse-client --host clickhouse-server -u user1 --password 123456
+docker run -it --rm --network="clickhouse-net" --link clickhouse-01:clickhouse-server yandex/clickhouse-client --host clickhouse-server -u admin --password xxx
 ```
 
 ## Source

@@ -28,14 +28,15 @@
 
     <!-- Users and ACL. -->
     <users>
-        <user1>
-            <password>123456</password>
+	<admin>
+            <!-- Huawei@123 -->
+	    <password_sha256_hex>36135da9586652aa0bdefee628001c4c4eb6901e278a44233a23cd2811eadc19</password_sha256_hex>
             <networks incl="networks" replace="replace">
                 <ip>::/0</ip>
             </networks>
             <profile>default</profile>
             <quota>default</quota>
-        </user1>
+        </admin>
         <!-- If user name was not specified, 'default' user is used. -->
         <default>
             <!-- Password could be specified in plaintext or in SHA256 (in hex format).
@@ -51,7 +52,7 @@
                  Execute: PASSWORD=$(base64 < /dev/urandom | head -c8); echo "$PASSWORD"; echo -n "$PASSWORD" | sha256sum | tr -d '-'
                  In first line will be password and in second - corresponding SHA256.
             -->
-            <password></password>
+            <password_sha256_hex>36135da9586652aa0bdefee628001c4c4eb6901e278a44233a23cd2811eadc19</password_sha256_hex>
 
             <!-- List of networks with open access.
 
